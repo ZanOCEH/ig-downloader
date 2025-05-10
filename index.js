@@ -1,6 +1,13 @@
+/*
+ * Ingat ni Source code api gratis seumur hidup, Jangan dijual.
+ * Source ini akan tetap jalan jika website utamanya tidak mati/masang limit & CF
+ * Using Website : https://www.fastdl.live/
+ * Coder by Xyzan.
+*/
+
 import fetch from 'node-fetch';
-import config from './config.js';
-let hitCount = 0;
+import config from './config.js'; //atur nama owner diconfig bukan disini.
+let hitCount = 0; //hitunghit
 export default async function handler(req, res) {
   if (req.method === 'GET' && req.query.endpoint === 'hitcounter') {
     return res.status(200).json({ 
@@ -10,11 +17,11 @@ export default async function handler(req, res) {
     });
   }
   if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method Not Allowed. Use GET.' });
+    return res.status(405).json({ error: 'makai method GET.' });
   }
-  const targetUrl = req.query.url;
+  const targetUrl = req.query.url
   if (!targetUrl) {
-    return res.status(400).json({ error: 'Missing `url` query parameter.' });
+    return res.status(400).json({ error: 'Anukan.. masukkan urlmu.' });
   }
   hitCount++;
   try {
@@ -39,7 +46,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({ url: targetUrl })
     });
     if (!response.ok) {
-      throw new Error(`API responded with status ${response.status}`);
+      throw new Error(`api respon dengan : ${response.status}`);
     }
     const data = await response.json();
     res.status(200).json({
@@ -51,7 +58,7 @@ export default async function handler(req, res) {
   } catch (err) {
     res.status(500).json({ 
       creator: config.creator,
-      error: 'Failed to fetch data from fastdl.live', 
+      error: 'gagal ambil data. hubungi owner', 
       details: err.message,
       hits: hitCount
     });

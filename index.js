@@ -1,6 +1,17 @@
 import fetch from 'node-fetch';
+import config from './config.js';
+
+let hitCount = 0;
 
 export default async function handler(req, res) {
+  if (req.method === 'GET' && req.query.endpoint === 'hitcounter') {
+    return res.status(200).json({ 
+      creator: config.creator,
+      total_hits: hitCount,
+      status: 'success' 
+    });
+  }
+
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method Not Allowed. Use GET.' });
   }
@@ -10,6 +21,8 @@ export default async function handler(req, res) {
   if (!targetUrl) {
     return res.status(400).json({ error: 'Missing `url` query parameter.' });
   }
+
+  hitCount++;
 
   try {
     const response = await fetch('https://www.fastdl.live/api/search', {
@@ -38,13 +51,19 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    res.status(200).json(data);
+    res.status(200).json({
+      creator: config.creator,
+      data: data,
+      hits: hitCount,
+      status: 'success'
+    });
 
   } catch (err) {
     res.status(500).json({ 
+      creator: config.creator,
       error: 'Failed to fetch data from fastdl.live', 
       details: err.message,
-      suggestion: 'The cookies or headers might need to be updated. Check the latest request from your browser.'
+      hits: hitCount
     });
   }
 }

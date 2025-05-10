@@ -1,6 +1,6 @@
 {
-  "name": "sssinstagram-api",
-  "version": "1.0.0",
+  "name": "downloader-ig api(anomaki)",
+  "version": "Beta",
   "type": "module",
   "dependencies": {
     "node-fetch": "^3.3.2"

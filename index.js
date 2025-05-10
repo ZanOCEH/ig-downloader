@@ -1,25 +1,29 @@
 import fetch from 'node-fetch';
 import config from './config.js';
 
-let hit = 0;
+let hitCount = 0;
 
-export default async function handler(req, response) {
-  if (req.method === 'GET' && req.query.endpoint === 'hit') {
-    return response.status(200).json({ 
+export default async function handler(req, res) {
+  if (req.method === 'GET' && req.query.endpoint === 'hitcounter') {
+    return res.status(200).json({ 
       creator: config.creator,
-      total_hit: hit,
+      total_hits: hitCount,
       status: 'success' 
     });
   }
 
   if (req.method !== 'GET') {
-    return response.status(405).json({ error: 'Method Not Allowed. Use GET.' });
+    return res.status(405).json({ error: 'Method Not Allowed. Use GET.' });
   }
-  const url = req.query.url;
-  if (!url) {
-    return response.status(400).json({ error: 'Missing `url` query parameter.' });
+
+  const targetUrl = req.query.url;
+
+  if (!targetUrl) {
+    return res.status(400).json({ error: 'Missing `url` query parameter.' });
   }
-  hit++;
+
+  hitCount++;
+
   try {
     const response = await fetch('https://www.fastdl.live/api/search', {
       method: 'POST',
@@ -39,27 +43,27 @@ export default async function handler(req, response) {
         'user-agent': 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Mobile Safari/537.36',
         'cookie': '_ga=GA1.1.409819991.1746865809; _ga_MDP0KWXQVY=GS2.1.s1746865809$o1$g1$t1746865821$j0$l0$h0'
       },
-      body: JSON.stringify({ url: url })
+      body: JSON.stringify({ url: targetUrl })
     });
 
     if (!response.ok) {
-      throw new Error(`API responseponded with status ${response.status}`);
+      throw new Error(`API responded with status ${response.status}`);
     }
 
     const data = await response.json();
-    response.status(200).json({
+    res.status(200).json({
       creator: config.creator,
       data: data,
-      hits: hit,
+      hits: hitCount,
       status: 'success'
     });
 
   } catch (err) {
-    response.status(500).json({ 
+    res.status(500).json({ 
       creator: config.creator,
       error: 'Failed to fetch data from fastdl.live', 
       details: err.message,
-      hits: hit
+      hits: hitCount
     });
   }
 }

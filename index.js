@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       throw new Error(`API responded with status ${pon.status}`);
     }
 
-    const data = await response.json();
+    const data = await pon.json();
     res.status(200).json({
       creator: config.creator,
       data: data,

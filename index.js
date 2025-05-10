@@ -13,11 +13,11 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method Not Allowed. Use GET.' });
+    return response.status(405).json({ error: 'Method Not Allowed. Use GET.' });
   }
   const url = req.query.url;
   if (!url) {
-    return res.status(400).json({ error: 'Missing `url` query parameter.' });
+    return response.status(400).json({ error: 'Missing `url` query parameter.' });
   }
   hit++;
   try {

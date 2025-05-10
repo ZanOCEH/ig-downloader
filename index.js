@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   hitCount++;
 
   try {
-    const response = await fetch('https://www.fastdl.live/api/search', {
+    const pon = await fetch('https://www.fastdl.live/api/search', {
       method: 'POST',
       headers: {
         'accept': 'application/json, text/plain, */*',
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({ url: targetUrl })
     });
 
-    if (!response.ok) {
-      throw new Error(`API responded with status ${response.status}`);
+    if (!pon.ok) {
+      throw new Error(`API responded with status ${pon.status}`);
     }
 
     const data = await response.json();

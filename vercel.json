@@ -8,14 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/api/ig",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
       "src": "/api/convert",
-      "dest": "/index.js",
-      "status": 301
+      "dest": "/index.js"
     }
   ]
 }

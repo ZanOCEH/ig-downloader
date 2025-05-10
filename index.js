@@ -47,7 +47,7 @@ export default async function handler(req, res) {
     }
 
     const data = await res.json();
-    res.status(200).json({
+    response.status(200).json({
       creator: config.creator,
       data: data,
       hits: hit,
@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     });
 
   } catch (err) {
-    res.status(500).json({ 
+    response.status(500).json({ 
       creator: config.creator,
       error: 'Failed to fetch data from fastdl.live', 
       details: err.message,

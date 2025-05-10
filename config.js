@@ -1,3 +1,3 @@
 export default {
-  creator: "Xyzan"
+  creator: "Xyzan (Anomaki)"
 };

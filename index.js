@@ -3,9 +3,9 @@ import config from './config.js';
 
 let hit = 0;
 
-export default async function handler(req, res) {
+export default async function handler(req, response) {
   if (req.method === 'GET' && req.query.endpoint === 'hit') {
-    return res.status(200).json({ 
+    return response.status(200).json({ 
       creator: config.creator,
       total_hit: hit,
       status: 'success' 
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   }
   hit++;
   try {
-    const res = await fetch('https://www.fastdl.live/api/search', {
+    const response = await fetch('https://www.fastdl.live/api/search', {
       method: 'POST',
       headers: {
         'accept': 'application/json, text/plain, */*',
@@ -42,11 +42,11 @@ export default async function handler(req, res) {
       body: JSON.stringify({ url: url })
     });
 
-    if (!res.ok) {
-      throw new Error(`API responded with status ${res.status}`);
+    if (!response.ok) {
+      throw new Error(`API responseponded with status ${response.status}`);
     }
 
-    const data = await res.json();
+    const data = await response.json();
     response.status(200).json({
       creator: config.creator,
       data: data,

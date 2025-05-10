@@ -1,28 +1,27 @@
 import fetch from 'node-fetch';
 import config from './config.js';
-
-let hitCount = 0;
+let jmlhHit = 0;
 
 export default async function handler(req, res) {
-  if (req.method === 'GET' && req.query.endpoint === 'hitcounter') {
+  if (req.method === 'GET' && req.query.endpoint === 'hitter') {
     return res.status(200).json({ 
       creator: config.creator,
-      total_hits: hitCount,
+      hitnya: jmlhHit,
       status: 'success' 
     });
   }
 
   if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method Not Allowed. Use GET.' });
+    return res.status(405).json({ error: 'Method lain. Pakailah GET.' });
   }
 
-  const targetUrl = req.query.url;
+  const urliG = req.query.url;
 
-  if (!targetUrl) {
+  if (!urliG) {
     return res.status(400).json({ error: 'Missing `url` query parameter.' });
   }
 
-  hitCount++;
+  ++;
 
   try {
     const pon = await fetch('https://www.fastdl.live/api/search', {
@@ -43,7 +42,7 @@ export default async function handler(req, res) {
         'user-agent': 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Mobile Safari/537.36',
         'cookie': '_ga=GA1.1.409819991.1746865809; _ga_MDP0KWXQVY=GS2.1.s1746865809$o1$g1$t1746865821$j0$l0$h0'
       },
-      body: JSON.stringify({ url: targetUrl })
+      body: JSON.stringify({ url: urliG })
     });
 
     if (!pon.ok) {
@@ -54,7 +53,7 @@ export default async function handler(req, res) {
     res.status(200).json({
       creator: config.creator,
       data: data,
-      hits: hitCount,
+      hitnya2: jmlhHit,
       status: 'success'
     });
 
@@ -63,7 +62,7 @@ export default async function handler(req, res) {
       creator: config.creator,
       error: 'Failed to fetch data from fastdl.live', 
       details: err.message,
-      hits: hitCount
+      hitnya2: jmlhHit
     });
   }
 }
